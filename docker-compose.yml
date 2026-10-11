@@ -1,0 +1,14 @@
+services:
+  paseo:
+    image: ghcr.io/micr0software/micropaseo:latest
+    build:
+      context: .
+    container_name: micropaseo
+    restart: unless-stopped
+    ports:
+      - "6767:6767"
+    environment:
+      PASEO_PASSWORD: "${PASEO_PASSWORD:-changeme}"
+    volumes:
+      - ./paseo-home:/home/paseo
+      - ./workspace:/workspace
