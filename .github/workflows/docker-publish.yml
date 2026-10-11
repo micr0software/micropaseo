@@ -46,3 +46,11 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+
+      - name: Make package public
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          PKG=$(echo "${{ github.repository }}" | cut -d/ -f2)
+          ORG=$(echo "${{ github.repository }}" | cut -d/ -f1)
+          gh api --method PATCH "/orgs/$ORG/packages/container/$PKG" -f visibility=public || echo "Set visibility manually: https://github.com/orgs/$ORG/packages"
